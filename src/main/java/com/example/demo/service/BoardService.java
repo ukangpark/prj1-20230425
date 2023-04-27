@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.util.*;
 
+import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -34,6 +35,13 @@ public class BoardService {
 	public boolean remove(Integer id) {
 		// TODO Auto-generated method stub
 		int cnt = mapper.deleteById(id);
+		return cnt == 1;
+	}
+	
+	
+	public boolean insert(Board board) {
+		// TODO Auto-generated method stub
+		int cnt = mapper.insertAll(board);
 		return cnt == 1;
 	}
 }
