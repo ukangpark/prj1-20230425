@@ -45,7 +45,7 @@ public class BoardService {
 		return cnt == 1;
 	}
 
-	public Map<String, Object> listBoard(Integer page) {
+	public Map<String, Object> listBoard(Integer page, String search) {
 		// 페이지당 행의 개수
 		Integer rowPerPage = 10;
 		
@@ -54,7 +54,7 @@ public class BoardService {
 		
 		// 페이지네이션이 필요한 정보
 		// 전체레코드수 구하기
-		Integer numOfRecords = mapper.countAll();
+		Integer numOfRecords = mapper.countAll(search);
 		// 마지막페이지 번호 구하기
 		Integer lastPageNumber = (numOfRecords - 1) / rowPerPage + 1;
 		
@@ -67,6 +67,7 @@ public class BoardService {
 		Integer rightPageNum = leftPageNum + 9;
 		// 마지막 페이지보다 클 수 없음
 		rightPageNum = Math.min(rightPageNum, lastPageNumber);
+
 		
 		// 해당 변수들을 한곳에 담아서 컨트롤러에게 줘야 컨트롤러가 jsp에 건내줌
 		//map으로 담아보자
@@ -78,7 +79,7 @@ public class BoardService {
 		
 		
 		// 게시물 목록
-		List<Board> list = mapper.selectAllPage(startIndex, rowPerPage);
+		List<Board> list = mapper.selectAllPage(startIndex, rowPerPage, search);
 		return Map.of("pageInfo", pageInfo, "boardList", list);
 	}
 }
