@@ -44,4 +44,41 @@ public class BoardService {
 		int cnt = mapper.insertAll(board);
 		return cnt == 1;
 	}
+
+	public Map<String, Object> listBoard(Integer page) {
+		// 페이지당 행의 개수
+		Integer rowPerPage = 10;
+		
+		//페이지당 데이터 개수 구하기
+		Integer startIndex = (page-1) * rowPerPage; 
+		
+		// 페이지네이션이 필요한 정보
+		// 전체레코드수 구하기
+		Integer numOfRecords = mapper.countAll();
+		// 마지막페이지 번호 구하기
+		Integer lastPageNumber = (numOfRecords - 1) / rowPerPage + 1;
+		
+		// 페이지네이션 왼쪽번호
+		Integer leftPageNum = page - 5;
+		// 1보다 작을 수 없음
+		leftPageNum = Math.max(leftPageNum, 1);
+		
+		// 페이지네이션 오른쪽번호
+		Integer rightPageNum = leftPageNum + 9;
+		// 마지막 페이지보다 클 수 없음
+		rightPageNum = Math.min(rightPageNum, lastPageNumber);
+		
+		// 해당 변수들을 한곳에 담아서 컨트롤러에게 줘야 컨트롤러가 jsp에 건내줌
+		//map으로 담아보자
+		Map<String, Object> pageInfo = new HashMap<>();
+		pageInfo.put("rightPageNum", rightPageNum);
+		pageInfo.put("leftPageNum", leftPageNum);
+		pageInfo.put("currentPageNum", page);
+		pageInfo.put("lastPageNum", lastPageNumber);
+		
+		
+		// 게시물 목록
+		List<Board> list = mapper.selectAllPage(startIndex, rowPerPage);
+		return Map.of("pageInfo", pageInfo, "boardList", list);
+	}
 }
