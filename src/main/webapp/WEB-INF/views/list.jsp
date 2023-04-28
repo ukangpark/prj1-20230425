@@ -82,7 +82,8 @@
 								<c:param name="search" value="${param.search }"></c:param>
 							</c:if>
 						</c:url>
-						<li class="page-item"><a class="page-link ${pageNum eq pageInfo.currentPageNum ? 'active' : '' }" href="${pageLink }">${pageNum }</a></li>
+						<li class="page-item">
+						<a class="page-link ${pageNum eq pageInfo.currentPageNum ? 'active' : '' }" href="${pageLink }">${pageNum }</a></li>
 					</c:forEach>
 
 					<!-- 다음 버튼 -->
