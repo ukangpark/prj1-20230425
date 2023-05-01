@@ -63,41 +63,29 @@
 				<ul class="pagination">
 
 					<!-- 이전 버튼 -->
-					<c:if test="${pageInfo.currentPageNum ne 1 }">
-					<c:url value="/list" var="pageLink">
-						<c:param name="page" value="${pageInfo.currentPageNum - 1 }"></c:param>
-							<c:if test="${not empty param.search }">
-								<c:param name="search" value="${param.search}"></c:param>
-							</c:if>
-						</c:url>
-					<li class="page-item"><a class="page-link" href="${pageLink }"><i class="fa-solid fa-chevron-left"></i></a>
-					</li>
+					<c:if test="${pageInfo.currentPageNum gt 1 }">
+						<!-- 페이지번호 : ${pageInfo.currentPageNum - 1 } -->
+						<my:pageItem pageNum="${pageInfo.currentPageNum - 1 }">
+							<i class="fa-solid fa-chevron-left"></i>
+						</my:pageItem>
 					</c:if>
 
 
 					<c:forEach begin="${pageInfo.leftPageNum }" end="${pageInfo.rightPageNum }" var="pageNum">
-						<c:url value="/list" var="pageLink">
-							<c:param name="page" value="${pageNum }"></c:param>
-							<c:if test="${not empty param.search }">
-								<c:param name="search" value="${param.search }"></c:param>
-							</c:if>
-						</c:url>
-						<li class="page-item">
-						<a class="page-link ${pageNum eq pageInfo.currentPageNum ? 'active' : '' }" href="${pageLink }">${pageNum }</a></li>
+						<my:pageItem pageNum="${pageNum }">
+						${pageNum }
+						</my:pageItem>
+
 					</c:forEach>
 
 					<!-- 다음 버튼 -->
 					<c:if test="${pageInfo.currentPageNum lt pageInfo.lastPageNum }">
-						<c:url value="/list" var="pageLink">
-							<c:param name="page" value="${pageInfo.currentPageNum + 1 }"></c:param>
-							<c:if test="${not empty param.search }">
-								<c:param name="search" value="${param.search }"></c:param>
-							</c:if>
-						</c:url>
-						<li class="page-item"><a class="page-link" href="${pageLink }"><i class="fa-solid fa-chevron-right"></i></a>
-					</li>
+						<!-- 페이지번호 : ${pageInfo.currentPageNum + 1 } -->
+						<my:pageItem pageNum="${pageInfo.currentPageNum + 1 }">
+							<i class="fa-solid fa-angle-right"></i>
+						</my:pageItem>
 					</c:if>
-					
+
 				</ul>
 			</nav>
 		</div>
