@@ -1,16 +1,21 @@
 package com.example.demo.service;
 
+import java.io.*;
 import java.util.*;
 
 import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
+import org.springframework.web.multipart.*;
 
 import com.example.demo.domain.*;
 import com.example.demo.mapper.*;
 
 @Service // 서비스일을하는 component다.
 // @Component // service객체를 만들어라 => component라고 써도되지만 서비스일을하는 component이기 때문에 명시적으로 알려주는게 좋음 
+// 서비스에 작성된 메소드 하나하나가 다 트랜잭션이기 때문에 class레벨로 사용하면 됨
+@Transactional (rollbackFor = Exception.class)
 public class BoardService {
 
 	@Autowired
@@ -38,10 +43,29 @@ public class BoardService {
 		return cnt == 1;
 	}
 	
-	
-	public boolean insert(Board board) {
-		// TODO Auto-generated method stub
+	public boolean insert(Board board, MultipartFile[] files) throws Exception {
+		// 게시물 insert
 		int cnt = mapper.insertAll(board);
+		
+		for (MultipartFile file : files) {
+			if(file.getSize() > 0) {
+				System.out.println(file.getOriginalFilename());
+				System.out.println(file.getSize());
+		//파일 저장  (파일 시스템에 저장)
+		//폴더 만들기 
+		String folder = "c:/study/upload/" + board.getId();
+		File targetFolder = new File(folder);
+		if (!targetFolder.exists()) { // 없을 때만 폴더 만들기
+			targetFolder.mkdir();
+		}
+		String path = "c:/study/upload/" + board.getId() + "/" + file.getOriginalFilename();
+		File target = new File(path);
+		file.transferTo(target);
+		
+		// db에 관련 정보 저장 (insert) 
+		Integer upload = mapper.insertFileName(board.getId(), file.getOriginalFilename());
+			}
+		}
 		return cnt == 1;
 	}
 
