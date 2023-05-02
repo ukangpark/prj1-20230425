@@ -32,7 +32,7 @@
 						<c:forEach items="${board.fileName }" var="fileName">
 							<div>
 								<!-- http://localhost:8080/image/게시물번호/fileName  -->
-								<img src="http://localhost:8080/image/${board.id }/${fileName}" alt="" />
+								<img class="img-thumbnail img-fluid" src="http://localhost:8080/image/${board.id }/${fileName}" alt="" />
 							</div>
 						</c:forEach>
 					</div>
