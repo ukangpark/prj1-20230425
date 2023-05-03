@@ -3,7 +3,6 @@ package com.example.demo.service;
 import java.io.*;
 import java.util.*;
 
-import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
@@ -12,11 +11,19 @@ import org.springframework.web.multipart.*;
 import com.example.demo.domain.*;
 import com.example.demo.mapper.*;
 
+import software.amazon.awssdk.services.s3.*;
+
 @Service // 서비스일을하는 component다.
 // @Component // service객체를 만들어라 => component라고 써도되지만 서비스일을하는 component이기 때문에 명시적으로 알려주는게 좋음 
 // 서비스에 작성된 메소드 하나하나가 다 트랜잭션이기 때문에 class레벨로 사용하면 됨
 @Transactional (rollbackFor = Exception.class)
 public class BoardService {
+	
+	@Autowired
+	private S3Client s3;
+	
+	@Value("${aws.s3.bucketName}")
+	private String bucketName;
 
 	@Autowired
 	private BoardMapper mapper;
@@ -42,6 +49,8 @@ public class BoardService {
 				File file = new File(path);
 				if (file.exists()) {
 					file.delete();
+					
+				// aws s3에서 삭제 
 				}
 				
 				// 테이블에서 삭제
@@ -69,6 +78,9 @@ public class BoardService {
 				// 파일을 하드디스크에 저장
 				File file = new File(path);
 				newFile.transferTo(file);
+				
+				// aws s3에 업로드
+				
 			}
 		}
 		// 게시물(Board) 테이블 수정

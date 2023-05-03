@@ -18,6 +18,15 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+		
+		<!-- aws s3 -->
+		<!-- https://mvnrepository.com/artifact/software.amazon.awssdk/s3 -->
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>s3</artifactId>
+			<version>2.20.57</version>
+	
+		</dependency>
 		<!-- jsp 설정 -->
 		<!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper -->
 		<dependency>
