@@ -63,8 +63,12 @@ public class BoardController {
 	
 	//@RequestMapping(value = "/modify/{id}", method=RequestMethod=POST)
 	@PostMapping("/modify/{id}")
-	public String modifyProcess(Board board, RedirectAttributes rttr) {
-		boolean ok = service.modify(board);//서비스에게 넘김
+	public String modifyProcess(Board board, 
+			@RequestParam(value="files", required = false) MultipartFile[] addFiles,
+			@RequestParam(value="removeFiles", required = false) List<String> removeFileNames,
+			RedirectAttributes rttr) throws Exception {
+		System.out.println(removeFileNames); //컨트롤러가 잘 받는지 확인용 
+		boolean ok = service.modify(board, removeFileNames, addFiles);//서비스에게 넘김
 		//DB가 수정되고 만약 잘 수정되었다면(true)이면 다음 실행흐름을 이어가라
 		
 		if (ok) {
