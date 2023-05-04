@@ -11,41 +11,36 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-
-	<my:navBar current="add" />
+	<my:navBar current="signup" />
+	<my:alert></my:alert>
 
 	<div class="container-lg">
-
 		<div class="row justify-content-center">
 			<div class="col-12 col-md-8 col-lg-6">
-				<h1>게시물 추가</h1>
-				<form method="post" enctype="multipart/form-data">
+				<h1>회원 가입</h1>
+				<form action="" method="post">
+					<!-- .mb-3*4>(label.form-label[for]+input.form-control[name]) -->
 					<div class="mb-3">
-						<label id="titleInput" class="form-label">제목</label> <input id="titleInput" class="form-control" type="text" name="title" value="${board.title }" />
+						<label for="inputId" class="form-label">아이디</label> <input id="inputId" type="text" class="form-control" name="id" value="${member.id }"/>
 					</div>
 					<div class="mb-3">
-						<label id="bodyTextarea" class="form-label">본문</label>
-						<textarea rows="10" id="bodyTextarea" class="form-control" name="body">${board.body }</textarea>
+						<label for="inputPassword" class="form-label">패스워드</label> <input id="inputPassword" type="password" class="form-control" name="password" value="${member.password }" />
 					</div>
 					<div class="mb-3">
-						<label id="writerInput" class="form-label">작성자</label> <input id="writerInput" class="form-control" type="text" name="writer" value="${board.writer }" />
+						<label for="inputNickName" class="form-label">별명</label> <input id="inputNickName" type="text" class="form-control" name="nickName" value="${member.nickName }"/>
 					</div>
-
 					<div class="mb-3">
-						<label for="fileInput" class="form-label">그림파일</label> 
-						<input class="form-control" type="file" id="fileInput" name="files" accept="image/*" multiple />
-						<div class="form-text">
-							총 10MB, 하나의 파일은 1MB를 초과할 수 없습니다.
-						</div>
+						<label for="inputEmail" class="form-label">이메일</label> <input id="inputEmail" type="email" class="form-control" name="email" value="${member.email }"/>
 					</div>
-
 					<div class="mb-3">
-						<input class="btn btn-primary" type="submit" value="추가" />
+						<input type="submit" class="btn btn-primary" value="회원가입" />
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
+
+
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
