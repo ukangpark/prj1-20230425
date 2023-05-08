@@ -27,5 +27,20 @@ public interface MemberMapper {
 			""")
 	Member selectById(String id);
 
+	@Delete("""
+			DELETE FROM Member
+			WHERE Id = #{id}
+			""")
+	Integer removeById(String id);
+
+	@Update("""
+			UPDATE Member
+			SET password = #{password},
+				nickName = #{nickName},
+				email = #{email}
+			WHERE Id = #{id}
+			""")
+	Integer update(Member member);
+
 	
 }
