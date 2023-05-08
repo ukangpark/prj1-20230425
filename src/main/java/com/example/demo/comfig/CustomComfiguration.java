@@ -2,6 +2,10 @@ package com.example.demo.comfig;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
+import org.springframework.security.config.annotation.web.builders.*;
+import org.springframework.security.crypto.bcrypt.*;
+import org.springframework.security.crypto.password.*;
+import org.springframework.security.web.*;
 
 import jakarta.annotation.*;
 import jakarta.servlet.*;
@@ -27,6 +31,16 @@ public class CustomComfiguration {
 		application.setAttribute("bucketUrl", bucketUrl );
 	}
 	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http.csrf().disable();
+		return http.build();
+	}
 	
 	@Bean
 	public S3Client s3client() {

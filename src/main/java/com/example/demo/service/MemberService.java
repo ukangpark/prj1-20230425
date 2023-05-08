@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 
@@ -16,8 +17,14 @@ public class MemberService {
 	
 	@Autowired
 	private MemberMapper mapper;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
-	public Boolean signup(Member member) {
+	public boolean signup(Member member) {
+		String plain = member.getPassword();
+		member.setPassword(passwordEncoder.encode(plain));
+		
 		int cnt = mapper.insert(member);
 		return cnt == 1;
 	}
@@ -37,7 +44,7 @@ public class MemberService {
 		
 		int cnt = 0;
 		
-		if (oldMember.getPassword().equals(member.getPassword())) {
+		if (passwordEncoder.matches(member.getPassword(), oldMember.getPassword())) {
 			//암호가 같으면?
 			cnt = mapper.removeById(member.getId()); //mapper에게 넘겨서 delete하면됨
 			
@@ -54,10 +61,17 @@ public class MemberService {
 	}
 
 	public boolean modify(Member member, String oldPassword) {
+		
+		// 패스워드를 바꾸기 위해 입력했다면..
+		if (!member.getPassword().isBlank()) {
+			// 입력된 패스워드를 암호화
+			String plain = member.getPassword();
+			member.setPassword(passwordEncoder.encode(plain));
+		}
 		Member oldMember = mapper.selectById(member.getId());
 		
 		int cnt = 0;
-		if (oldMember.getPassword().equals(member.getPassword())) {
+		if (passwordEncoder.matches(oldPassword, oldMember.getPassword())) {
 			cnt = mapper.update(member);
 		}
 		return cnt == 1;

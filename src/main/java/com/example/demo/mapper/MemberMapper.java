@@ -34,11 +34,19 @@ public interface MemberMapper {
 	Integer removeById(String id);
 
 	@Update("""
+			<script>
+			
 			UPDATE Member
-			SET password = #{password},
+			SET 
+				<if test="password neq null and password neq ''">
+				password = #{password},
+				</if>
+				
 				nickName = #{nickName},
 				email = #{email}
 			WHERE Id = #{id}
+			
+			</script>
 			""")
 	Integer update(Member member);
 
