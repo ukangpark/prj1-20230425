@@ -50,9 +50,14 @@
 						<label for="bodyTextarea" class="form-label">본문</label>
 						<textarea class="form-control" rows="10" name="body">${board.body }</textarea>
 					</div>
+					
+					<%-- 
 					<div class="mb-3">
-						<label class="form-label" class="form-label">작성자</label> <input type="text" class="form-control" name="writer" value="${board.writer }" />
+						<label class="form-label" class="form-label">작성자
+						</label> <input type="text" class="form-control" name="writer" value="${board.writer }" />
 					</div>
+					 --%>
+					
 					<div class="mb-3">
 						<label class="form-label">작성일시</label> <input type="text" class="form-control" value="${board.inserted }" readonly />
 					</div>

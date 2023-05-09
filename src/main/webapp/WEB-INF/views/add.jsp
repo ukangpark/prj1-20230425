@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,10 +28,12 @@
 						<label id="bodyTextarea" class="form-label">본문</label>
 						<textarea rows="10" id="bodyTextarea" class="form-control" name="body">${board.body }</textarea>
 					</div>
+					<%-- 
 					<div class="mb-3">
-						<label id="writerInput" class="form-label">작성자</label> <input id="writerInput" class="form-control" type="text" name="writer" value="${board.writer }" />
+						<label id="writerInput" class="form-label">작성자</label> <input id="writerInput" class="form-control" type="text" name="writer" value="<sec:authentication property="name" />" readonly/>
 					</div>
-
+ 					--%>
+ 					
 					<div class="mb-3">
 						<label for="fileInput" class="form-label">그림파일</label> 
 						<input class="form-control" type="file" id="fileInput" name="files" accept="image/*" multiple />
