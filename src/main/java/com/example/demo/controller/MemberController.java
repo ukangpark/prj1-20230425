@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
+import org.springframework.security.access.prepost.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +21,18 @@ public class MemberController {
 	private MemberService service;
 
 	@GetMapping("signup")
+	@PreAuthorize("isAnonymous()") // 로그인하지 않은 사람만 접근가능하게 할거야
 	public void signupForm() {
 
 	}
+	
+	@GetMapping("login")
+	public void loginForm() {
+		
+	}
 
 	@PostMapping("signup")
+	@PreAuthorize("isAnonymous()") // 로그인하지 않은 사람만 접근가능하게 할거야
 	public String signupProcess(Member member, RedirectAttributes rttr) {
 
 		try {
@@ -46,12 +54,14 @@ public class MemberController {
 	}
 	
 	@GetMapping("info")
+	@PreAuthorize("isAuthenticated()") // 로그인한 사람만 접근권한을 줄거야.
 	public void info(String id, Model model) {
 		Member member = service.get(id);
 		model.addAttribute("member", member);
 	}
 	
 	@PostMapping("remove")
+	@PreAuthorize("isAuthenticated()")
 	public String remove(Member member, RedirectAttributes rttr) {
 		boolean ok = service.remove(member);
 		
@@ -65,6 +75,7 @@ public class MemberController {
 	}
 	
 	@GetMapping("memberModify")
+	@PreAuthorize("isAuthenticated()")
 	public void memberModify(String id, Model model) {
 		Member member = service.get(id);
 		model.addAttribute("member", member);
@@ -72,6 +83,7 @@ public class MemberController {
 		
 	}
 	@PostMapping("memberModify")
+	@PreAuthorize("isAuthenticated()")
 	public String modifyProcess(Member member, String oldPassword, RedirectAttributes rttr) {
 		System.out.println(member);
 		boolean ok = service.modify(member, oldPassword);
