@@ -51,13 +51,14 @@ public class MemberController {
 	}
 	
 	@GetMapping("memberlist")
+	@PreAuthorize("hasAuthority('admin')")
 	public void list(Model model) {
 		List<Member> list = service.memberList();
 		model.addAttribute("memberList", list);
 	}
 	
 	@GetMapping("info")
-	@PreAuthorize("isAuthenticated() and (authentication.name eq #id)") // 로그인한 사람만 접근권한을 줄거야.
+	@PreAuthorize("hasAuthority('admin') OR (isAuthenticated() and (authentication.name eq #id))") // 로그인한 사람만 접근권한을 줄거야.
 	public void info(String id, Model model) {
 		Member member = service.get(id);
 		model.addAttribute("member", member);
@@ -90,7 +91,7 @@ public class MemberController {
 		model.addAttribute("member", member);
 		//model.addAttribute(service.get(id)); //attribute이름이 서비스를 가지는 객체타입이 lowcamel로 들어감
 		
-	}
+	} 
 	@PostMapping("memberModify")
 	@PreAuthorize("isAuthenticated() and (authentication.name eq #member.id)")
 	public String modifyProcess(Member member, String oldPassword, RedirectAttributes rttr) {

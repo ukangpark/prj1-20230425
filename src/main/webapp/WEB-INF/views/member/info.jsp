@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,38 +33,39 @@
 					<label class="form-label" for="">이메일</label> <input class="form-control" type="text" value="${member.email }" readonly />
 				</div>
 
-				<a class="btn btn-secondary" href="/member/memberModify?id=${member.id }">수정</a>
-				<!-- request파라미터가 1개밖에 없어서 c:url을 쓰지않았음  -->
-				
+				<sec:authorize access="authentication.name eq #member.id">
+					<!-- request파라미터가 1개밖에 없어서 c:url을 쓰지않았음  -->
+					<a class="btn btn-secondary" href="/member/memberModify?id=${member.id }">수정</a>
+					<button type="button" data-bs-toggle="modal" class="btn btn-danger" data-bs-target="#confirmModal">탈퇴</button>
+				</sec:authorize>
 
-				<button type="button" data-bs-toggle="modal" class="btn btn-danger" data-bs-target="#confirmModal">탈퇴</button>
+
 			</div>
 		</div>
 	</div>
 
-	<div class="d-none"></div>
-
-	<!-- 탈퇴 확인 Modal -->
-	<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="exampleModalLabel">탈퇴 확인</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<form id="removeForm" action="/member/remove" method="post">
-						<input type="hidden" name="id" value="${member.id }" /> <label for="passwordInPut1">암호</label> <input type="password" name="password" class="form-control" />
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-					<button type="submit" form="removeForm" class="btn btn-danger">확인</button>
+	<sec:authorize access="authentication.name eq #member.id">
+		<!-- 탈퇴 확인 Modal -->
+		<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">탈퇴 확인</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form id="removeForm" action="/member/remove" method="post">
+							<input type="hidden" name="id" value="${member.id }" /> <label for="passwordInPut1">암호</label> <input type="password" name="password" class="form-control" />
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+						<button type="submit" form="removeForm" class="btn btn-danger">확인</button>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-
+	</sec:authorize>
 
 
 

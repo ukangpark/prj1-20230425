@@ -57,7 +57,7 @@ public class BoardController {
 	
 	//수정전 조회하는일
 	@GetMapping("/modify/{id}")
-	@PreAuthorize("isAuthenticated() and @customSecurityChecker.checkBoardWriter(authentication, #board.id)")
+	@PreAuthorize("isAuthenticated() and @customSecurityChecker.checkBoardWriter(authentication, #id)")
 	public String modify(@PathVariable("id") Integer id, Model model) {
 		model.addAttribute("board", service.getBoard(id));
 		return "modify";
