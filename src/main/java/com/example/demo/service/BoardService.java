@@ -214,4 +214,13 @@ public class BoardService {
 		List<Board> list = mapper.selectAllPage(startIndex, rowPerPage, search, type);
 		return Map.of("pageInfo", pageInfo, "boardList", list);
 	}
+
+	public void removeByWriter(String writer) {
+		List<Integer> idList = mapper.selectIdByWriter(writer);
+		
+		for (Integer id : idList) {
+			remove(id);
+		}
+		
+	}
 }

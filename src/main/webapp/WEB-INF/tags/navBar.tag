@@ -32,6 +32,10 @@
 				<li class="nav-item"><a class="nav-link ${current eq 'memberList' ? 'active' : '' }" href="/member/memberlist">회원목록</a></li>
 				</sec:authorize>
 				
+				<sec:authorize access="isAuthenticated()">
+				<li class="nav-item"><a class="nav-link ${current eq 'memberInfo' ? 'active' : '' }" href="/member/info?id=<sec:authentication property="name"/>">회원정보</a></li>
+				</sec:authorize>
+				
 				<sec:authorize access="isAnonymous()">
 				<li class="nav-item"><a class="nav-link ${current eq 'login' ? 'active' : '' }" href="/member/login">로그인</a></li>
 				</sec:authorize>
@@ -39,6 +43,7 @@
 				<sec:authorize access="isAuthenticated()">
 				<li class="nav-item"><a class="nav-link ${current eq 'logout' ? 'active' : '' }" href="/member/logout">로그아웃</a></li>
 				</sec:authorize>
+				
 				
 			</ul>
 			<form action="/list" class="d-flex" role="search">
