@@ -146,6 +146,8 @@ public interface BoardMapper {
 			WHERE writer = #{writer}
 			""")
 	List<Integer> selectIdByWriter(String writer);
+
+	
 	
 	
 	

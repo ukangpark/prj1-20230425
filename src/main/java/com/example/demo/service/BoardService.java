@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.core.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 import org.springframework.web.multipart.*;
@@ -20,6 +21,9 @@ import software.amazon.awssdk.services.s3.model.*;
 // 서비스에 작성된 메소드 하나하나가 다 트랜잭션이기 때문에 class레벨로 사용하면 됨
 @Transactional (rollbackFor = Exception.class)
 public class BoardService {
+	
+	@Autowired
+	private BoardLikeMapper likeMapper;
 	
 	@Autowired
 	private S3Client s3;
@@ -222,5 +226,22 @@ public class BoardService {
 			remove(id);
 		}
 		
+	}
+
+	public Map<String, Object> like(Like like, Authentication auth) {
+		Map<String, Object> result = new HashMap<>();
+		
+		result.put("like", false);
+		
+		like.setMemberId(auth.getName());
+		Integer deleteCnt = likeMapper.delete(like); // 지웠는데 지운게 없으면
+		
+		if (deleteCnt != 1) {
+			Integer insertCnt = likeMapper.insert(like); // 새로 누른것으로 insert 해라
+			result.put("like", true);
+		}
+		 
+		
+		return result;
 	}
 }

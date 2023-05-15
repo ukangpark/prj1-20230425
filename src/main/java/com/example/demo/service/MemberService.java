@@ -4,12 +4,14 @@ import java.util.*;
 
 import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.core.*;
 import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 
 import com.example.demo.domain.*;
 import com.example.demo.mapper.*;
+import com.fasterxml.jackson.databind.deser.DataFormatReaders.*;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -83,5 +85,33 @@ public class MemberService {
 		}
 		return cnt == 1;
 	}
+
+	public Map<String, Object> checkId(String id) {
+		Member member = mapper.selectById(id);
+		
+		return Map.of("available", member == null); //null이면 true니까 id를 사용가능한것
+	}
+
+	public Map<String, Object> checkNickName(String nickName, Authentication auth) {
+		Member member = mapper.selectByNickName(nickName);
+		if (auth != null) {
+			Member oldMember = mapper.selectById(auth.getName());
+			return Map.of("available", member == null || oldMember.getNickName().equals(nickName));
+			
+		} else {
+			return Map.of("available", member == null);
+			
+		}
+	}
+
+	public Map<String, Object> checkEmail(String email, Authentication auth) {
+		Member member = mapper.selectByEmail(email);
+		if (auth != null) {
+			Member oldMember = mapper.selectById(auth.getName());
+			return Map.of("available", member == null || oldMember.getEmail().equals(member.getEmail()));
+		}
+		return Map.of("available", member == null);
+	}
+
 
 }

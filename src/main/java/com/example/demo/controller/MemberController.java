@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.context.annotation.*;
 import org.springframework.security.access.prepost.*;
 import org.springframework.security.core.*;
 import org.springframework.stereotype.*;
@@ -27,6 +26,26 @@ public class MemberController {
 	@PreAuthorize("isAnonymous()") // 로그인하지 않은 사람만 접근가능하게 할거야
 	public void signupForm() {
 
+	}
+	
+	@GetMapping("/checkId/{id}")
+	@ResponseBody
+	public Map<String, Object> checkId(@PathVariable("id") String id) {
+		return service.checkId(id);
+	}
+	
+	@GetMapping("/checkNickName/{nickName}")
+	@ResponseBody
+	public Map<String, Object> checkNickName(@PathVariable("nickName") String nickName,
+										Authentication auth) {
+		return service.checkNickName(nickName, auth);
+	}
+	
+	@GetMapping("/checkEmail/{email}")
+	@ResponseBody
+	public Map<String, Object> checkEmail(@PathVariable("email") String email,
+									Authentication auth) {
+		return service.checkEmail(email, auth);
 	}
 	
 	@GetMapping("login")
@@ -106,6 +125,9 @@ public class MemberController {
 			
 		}
 	}
+	
+
+
 
 
 

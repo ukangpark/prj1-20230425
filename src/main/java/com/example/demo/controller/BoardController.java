@@ -133,4 +133,13 @@ public class BoardController {
 		
 		
 	}
+	
+	@PostMapping("/like")
+	@ResponseBody
+	public Map<String, Object> like(
+						@RequestBody Like like,
+						Authentication auth) {
+		return service.like(like, auth);
+		
+	}
 }
