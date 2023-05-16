@@ -14,7 +14,7 @@ public interface BoardMapper {
 				id,
 				title,
 				writer,
-				inserted
+				inserted,
 			FROM Board
 			ORDER BY id DESC
 			""")
@@ -27,9 +27,9 @@ public interface BoardMapper {
 				b.body,
 				b.writer,
 				b.inserted,
-				f.fileName
-			FROM Board b LEFT JOIN FileName f 
-			ON b.id = f.boardId
+				f.fileName,
+				(SELECT COUNT(*) from BoardLike WHERE boardId = b.id) likeCount
+			FROM Board b LEFT JOIN FileName f ON b.id = f.boardId
 			WHERE b.id = #{id}
 			""")
 	@ResultMap("boardResultMap")
@@ -67,7 +67,8 @@ public interface BoardMapper {
 				b.title,
 				b.writer,
 				b.inserted,
-				COUNT(f.id) fileCount
+				COUNT(f.id) fileCount,
+				(SELECT COUNT(*) FROM BoardLike WHERE boardId = b.id) likeCount
 			FROM Board b LEFT JOIN FileName f
 			ON b.id = f.boardId
 			<where>

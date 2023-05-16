@@ -39,6 +39,7 @@
 			<thead>
 				<tr>
 					<th>id</th>
+					<th><i class="fa-regular fa-heart"></i></th>
 					<th>제목</th>
 					<th>작성자</th>
 					<th>작성일시</th>
@@ -48,6 +49,8 @@
 				<c:forEach items="${boardList }" var="list">
 					<tr>
 						<td>${list.id }</td>
+						<td>${list.likeCount}</td>
+						
 						<td>
 							<a href="/id/${list.id }"> ${list.title } </a>
 							

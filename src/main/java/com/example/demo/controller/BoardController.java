@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
 import org.springframework.security.access.prepost.*;
 import org.springframework.security.core.*;
 import org.springframework.stereotype.*;
@@ -43,11 +44,12 @@ public class BoardController {
 		return "list";
 	}
 	
+		
 	@GetMapping("/id/{id}")
-	public String board(@PathVariable("id") Integer id, Model model) {
+	public String board(@PathVariable("id") Integer id, Model model, Authentication auth) {
 		//1. request param 수집/가공
 		//2. business logic 처리 service에게 일을시킴
-		Board board = service.getBoard(id);
+		Board board = service.getBoard(id, auth);
 		System.out.println(board);
 		//3. add attribute
 		model.addAttribute("board",board);
@@ -59,7 +61,7 @@ public class BoardController {
 	@GetMapping("/modify/{id}")
 	@PreAuthorize("isAuthenticated() and @customSecurityChecker.checkBoardWriter(authentication, #id)")
 	public String modify(@PathVariable("id") Integer id, Model model) {
-		model.addAttribute("board", service.getBoard(id));
+		model.addAttribute("board", service.getBoard(id, null));
 		return "modify";
 	}
 	
@@ -135,11 +137,22 @@ public class BoardController {
 	}
 	
 	@PostMapping("/like")
-	@ResponseBody
-	public Map<String, Object> like(
+	//@ResponseBody
+	public ResponseEntity<Map<String, Object>> like(
 						@RequestBody Like like,
 						Authentication auth) {
-		return service.like(like, auth);
+		
+		if (auth == null) {
+			return ResponseEntity
+						.status(403)
+						.body(Map.of("message", "로그인 후 좋아요 클릭 해주세요"));
+		} else {
+			
+			return ResponseEntity
+					.ok()
+					.body(service.like(like, auth));
+			
+		}
 		
 	}
 }
