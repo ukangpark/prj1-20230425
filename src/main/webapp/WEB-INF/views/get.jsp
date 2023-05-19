@@ -20,7 +20,7 @@
 		<div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
 			<div class="d-flex">
 				<div class="toast-header">
-					<button type="button"  class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+					<button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
 				</div>
 			</div>
 			<div class="toast-body"></div>
@@ -33,11 +33,10 @@
 			<div class="col-12 col-md-8 col-lg-6">
 				<div class="d-flex">
 					<div class="me-auto">
-					<h1>
-						<span id="boardIdText"> ${board.id } </span> 
-						번게시물
-					</h1>
-				</div>
+						<h1>
+							<span id="boardIdText"> ${board.id } </span> 번게시물
+						</h1>
+					</div>
 
 					<div>
 						<h1>
@@ -92,6 +91,25 @@
 		</div>
 	</div>
 
+	<div id="commentContainer">
+		<div id="addCommentContainer">
+			<h6>삭제</h6>
+			<textarea id="commentTextArea" ></textarea>
+			<button id="sendCommentBtn">전송</button>
+		</div>
+		<div id="updateCommentContainer">
+			<h6>수정</h6>
+			<input type="hidden" id="commentUpdateIdInput"/>
+			<textarea id="commentUpdateTextArea"></textarea>
+			<button id="updateCommentBtn">수정</button>
+		</div>
+		<div id="commentListContainer">
+			<div>댓글1 내용 : 누가 : 언제</div>
+			<div>댓글2 내용 : 누가 : 언제</div>
+			<div>댓글3 내용 : 누가 : 언제</div>
+		</div>
+	</div>
+
 	<sec:authorize access="isAuthenticated()">
 		<sec:authentication property="name" var="userId" />
 		<!-- 유저정보중 유저id의 값을 저장해두고 -->
@@ -130,8 +148,11 @@
 		<!-- 만약 같다면 보이게하고 같지않다면 보이지않게함  -->
 	</sec:authorize>
 
+
+
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="/js/board/like.js"></script>
+	<script src="/js/board/comment.js"></script>
 </body>
 </html>
