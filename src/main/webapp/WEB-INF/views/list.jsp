@@ -60,7 +60,12 @@
 								${list.fileCount }
 								</span>
 							</c:if>
-							
+							<c:if test="${list.commentCount > 0 }">
+								<span class="badge rounded-pill text-bg-dark">
+								<i class="fa-solid fa-comments"></i>
+								${list.commentCount }
+								</span>
+							</c:if>
 						</td>
 						<td>${list.writer }</td>
 						<td>${list.inserted }</td>

@@ -86,27 +86,40 @@
 						</c:if>
 					</sec:authorize>
 
+
+					<hr />
+
+
+					<div id="commentContainer">
+						<h1>
+							<i class="fa-solid fa-comments"></i>
+						</h1>
+						<sec:authorize access="isAuthenticated()">
+							<div class="mb-3" id="addCommentContainer">
+								<div class="input-group">
+									<div class="form-floating">
+										<textarea style="height: 97px" class="form-control" id="commentTextArea" placeholder="댓글입력"></textarea>
+										<label for="commentTextArea">댓글입력</label>
+									</div>
+									<button class="btn btn-outline-success" id="sendCommentBtn">전송</button>
+								</div>
+
+							</div>
+						</sec:authorize>
+						<!-- <div id="updateCommentContainer">
+			<div class="form-floating mb-3">
+				<input type="hidden" id="commentUpdateIdInput" />
+				<textarea class="form-control" id="commentUpdateTextArea" placeholder="댓글수정"></textarea>
+				<label for="commentUpdateTextArea">댓글수정</label>
+				<button class="btn btn-outline-secondary" id="updateCommentBtn">수정</button>
+			</div>
+		</div> -->
+						<ul class="list-group" id="commentListContainer">
+
+						</ul>
+					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-
-	<div id="commentContainer">
-		<div id="addCommentContainer">
-			<h6>삭제</h6>
-			<textarea id="commentTextArea" ></textarea>
-			<button id="sendCommentBtn">전송</button>
-		</div>
-		<div id="updateCommentContainer">
-			<h6>수정</h6>
-			<input type="hidden" id="commentUpdateIdInput"/>
-			<textarea id="commentUpdateTextArea"></textarea>
-			<button id="updateCommentBtn">수정</button>
-		</div>
-		<div id="commentListContainer">
-			<div>댓글1 내용 : 누가 : 언제</div>
-			<div>댓글2 내용 : 누가 : 언제</div>
-			<div>댓글3 내용 : 누가 : 언제</div>
 		</div>
 	</div>
 
@@ -146,6 +159,28 @@
 			</div>
 		</c:if>
 		<!-- 만약 같다면 보이게하고 같지않다면 보이지않게함  -->
+
+		<%-- 댓글 수정 모달 --%>
+		<div class="modal fade" id="commentUpdateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5">댓글 수정</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div id="updateCommentContainer">
+							<input type="hidden" id="commentUpdateIdInput" />
+							<textarea class="form-control" id="commentUpdateTextArea"></textarea>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-primary" id="updateCommentBtn" data-bs-dismiss="modal">수정</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</sec:authorize>
 
 

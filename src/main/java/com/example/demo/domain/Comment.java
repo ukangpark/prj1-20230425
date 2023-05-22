@@ -11,4 +11,6 @@ public class Comment {
 	private String content;
 	private String memberId;
 	private LocalDateTime inserted;
+	
+	private Boolean editable;
 }

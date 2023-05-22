@@ -19,6 +19,8 @@ public class Board {
 	private Integer fileCount;
 	private Integer likeCount;
 	
+	private Integer commentCount;
+	
 	
 
 }

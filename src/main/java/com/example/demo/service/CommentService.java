@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.core.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 
@@ -16,13 +17,26 @@ public class CommentService {
 	@Autowired
 	private CommentMapper mapper;
 
-	public List<Comment> list(Integer boardId) {
+	public List<Comment> list(Integer boardId, Authentication auth) {
 		
-		return mapper.seletAllByBoardId(boardId);
+		List<Comment> comments = mapper.seletAllByBoardId(boardId);
+		if (auth != null) {
+			/*
+			 * List<Comment> commentsWithEditable = comments.stream() .map(c -> {
+			 * c.setEditable(c.getMemberId().equals(auth.getName())); return c; })
+			 * .toList();
+			 */
+			for (Comment comment : comments) {
+				comment.setEditable(comment.getMemberId().equals(auth.getName()));
+			}
+		}
+		return comments;
 	}
 
-	public Map<String, Object> add(Comment comment) {
-		comment.setMemberId("5");
+	public Map<String, Object> add(Comment comment, Authentication auth) {
+		//comment.setMemberId("5");
+		
+		comment.setMemberId(auth.getName());
 		
 		var res = new HashMap<String, Object>();
 		int cnt = mapper.insert(comment);
@@ -54,7 +68,7 @@ public class CommentService {
 	}
 
 	public Comment get(Integer id) {
-		return mapper.seletById(id);
+		return mapper.selectById(id);
 	}
 
 	public Map<String, Object> update(Comment comment, String id) {
