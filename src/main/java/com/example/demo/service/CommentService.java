@@ -71,7 +71,7 @@ public class CommentService {
 		return mapper.selectById(id);
 	}
 
-	public Map<String, Object> update(Comment comment, String id) {
+	public Map<String, Object> update(Comment comment) {
 		int cnt = mapper.update(comment);
 		var res = new HashMap<String, Object>();
 		if (cnt == 1) {

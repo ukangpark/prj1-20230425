@@ -64,9 +64,9 @@ public class CommentController {
 	
 	@PutMapping("update")
 	//@ResponseBody
-	@PreAuthorize("authenticated and @customSecurityChecker.checkCommentWriter(authentication, #id)")
-	public ResponseEntity<Map<String, Object>> update(@RequestBody Comment comment, String id) {
-		Map<String, Object> res = service.update(comment, id);
+	@PreAuthorize("authenticated and @customSecurityChecker.checkCommentWriter(authentication, #comment.id)")
+	public ResponseEntity<Map<String, Object>> update(@RequestBody Comment comment) {
+		Map<String, Object> res = service.update(comment);
 		return ResponseEntity.ok().body(res);
 	}
 

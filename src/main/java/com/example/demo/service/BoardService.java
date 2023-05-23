@@ -23,6 +23,9 @@ import software.amazon.awssdk.services.s3.model.*;
 public class BoardService {
 
 	@Autowired
+	private CommentMapper commentMapper;
+	
+	@Autowired
 	private BoardLikeMapper likeMapper;
 
 	@Autowired
@@ -114,6 +117,10 @@ public class BoardService {
 
 	public boolean remove(Integer id) {
 		
+		// 댓글 테이블 지우기
+		commentMapper.deleteByBoardId(id);
+		
+		// 좋아요 테이블 지우기
 		likeMapper.deleteByBoardId(id);
 		// 파일명 조회
 		List<String> fileNames = mapper.selectFileNameByBoardId(id);
